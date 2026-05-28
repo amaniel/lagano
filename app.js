@@ -173,24 +173,20 @@ function renderHome() {
   const allLock = document.getElementById('all-words-lock');
   if (allLock) allLock.style.display = state.isPremium ? 'none' : '';
 
-  // Section headers — hide free/premium labels for premium users
-  const freeSection = document.querySelector('.section-head:has(#free-count)');
+  // Section headers — for premium show "все темы", hide free/premium labels
+  const allCatsHead = document.getElementById('all-categories-head');
+  const freeSectionHead = document.getElementById('free-section-head');
   const premiumBadge = document.getElementById('premium-section-badge');
   const premiumSectionHead = premiumBadge?.closest('.section-head');
 
   if (state.isPremium) {
-    // Hide section separators for premium
-    document.querySelectorAll('.section-head').forEach(el => {
-      if (el.querySelector('#free-count') || el.querySelector('#premium-section-badge')) {
-        el.style.display = 'none';
-      }
-    });
+    if (allCatsHead) allCatsHead.style.display = '';
+    if (freeSectionHead) freeSectionHead.style.display = 'none';
+    if (premiumSectionHead) premiumSectionHead.style.display = 'none';
   } else {
-    document.querySelectorAll('.section-head').forEach(el => {
-      if (el.querySelector('#free-count') || el.querySelector('#premium-section-badge')) {
-        el.style.display = '';
-      }
-    });
+    if (allCatsHead) allCatsHead.style.display = 'none';
+    if (freeSectionHead) freeSectionHead.style.display = '';
+    if (premiumSectionHead) premiumSectionHead.style.display = '';
   }
 
   // Render categories
@@ -653,6 +649,24 @@ function initSettings() {
   const isDark = document.body.classList.contains('dark');
   const toggle = document.getElementById('dark-mode-toggle');
   if (toggle) toggle.checked = isDark;
+
+  // Subscription block
+  const statusEl = document.getElementById('subscription-status');
+  const subEl = document.getElementById('subscription-sub');
+  const manageItem = document.getElementById('subscription-manage-item');
+  const manageDivider = document.getElementById('subscription-manage-divider');
+
+  if (state.isPremium) {
+    if (statusEl) statusEl.textContent = 'Premium активен';
+    if (subEl) subEl.textContent = 'Все темы открыты';
+    if (manageItem) manageItem.style.display = 'none';
+    if (manageDivider) manageDivider.style.display = 'none';
+  } else {
+    if (statusEl) statusEl.textContent = 'Бесплатный план';
+    if (subEl) subEl.textContent = '3 темы открыты';
+    if (manageItem) manageItem.style.display = '';
+    if (manageDivider) manageDivider.style.display = '';
+  }
 }
 
 function toggleDarkMode(enabled) {

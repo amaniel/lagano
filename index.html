@@ -55,8 +55,13 @@
         </div>
       </div>
 
+      <!-- Premium: all categories label (shown only for premium) -->
+      <div class="section-head" id="all-categories-head" style="display:none;">
+        <span class="section-title">Все темы</span>
+      </div>
+
       <!-- Free categories -->
-      <div class="section-head">
+      <div class="section-head" id="free-section-head">
         <span class="section-title">Бесплатно</span>
         <span class="section-badge badge-free" id="free-count"></span>
       </div>
@@ -241,6 +246,33 @@
             <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode(this.checked)">
             <span class="toggle-slider"></span>
           </label>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:8px;" id="subscription-section-head"><span class="section-title">Подписка</span></div>
+
+      <div class="settings-block" id="subscription-block">
+        <div class="settings-item">
+          <div class="settings-item-left">
+            <div class="ibox warm"><i class="ti ti-crown"></i></div>
+            <div>
+              <div class="settings-item-title" id="subscription-status">Premium активен</div>
+              <div class="settings-item-sub" id="subscription-sub">Все темы открыты</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-divider" id="subscription-manage-divider"></div>
+
+        <div class="settings-item" id="subscription-manage-item" onclick="onSubscribe()" style="cursor:pointer;display:none;">
+          <div class="settings-item-left">
+            <div class="ibox warm"><i class="ti ti-credit-card"></i></div>
+            <div>
+              <div class="settings-item-title">Оформить подписку</div>
+              <div class="settings-item-sub">$2/мес · отмена в любой момент</div>
+            </div>
+          </div>
+          <i class="ti ti-chevron-right settings-arrow"></i>
         </div>
       </div>
 
