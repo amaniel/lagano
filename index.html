@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Lagano</title>
+
+  <!-- Telegram Mini App API -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== SCREEN: HOME ===== -->
+  <div id="screen-home" class="screen active">
+    <header class="header">
+      <div class="header-logo">
+        <svg width="24" height="28" viewBox="0 0 44 52" fill="none">
+          <path d="M2 29 L2 44 Q2 48 6 48 L38 48 Q42 48 42 44 L42 29 Z" stroke="#C45C3A" stroke-width="2.5" stroke-linejoin="round"/>
+          <g transform="rotate(-10,2,29)">
+            <path d="M2 29 L2 18 Q2 14 6 14 L38 14 Q42 14 42 18 L42 29" stroke="#C45C3A" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M15 14 L15 8 Q15 5 18 5 L26 5 Q29 5 29 8 L29 14" stroke="#C45C3A" stroke-width="2.5" stroke-linecap="round"/>
+          </g>
+          <rect x="18" y="26" width="8" height="5.5" rx="2" stroke="#C45C3A" stroke-width="1.5"/>
+        </svg>
+        <span class="logo-text">Lagano<span class="accent">.</span></span>
+      </div>
+      <div class="header-right">
+        <div class="streak-badge" id="home-streak">🔥 <span id="streak-count">0</span> дней</div>
+        <button class="icon-btn" onclick="showScreen('profile')" aria-label="профиль">
+          <i class="ti ti-user-circle"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="screen-body">
+      <!-- Hero stats -->
+      <div class="hero-block">
+        <div>
+          <div class="hero-num"><span id="total-words">0</span><span class="accent">.</span></div>
+          <div class="hero-label">слово в базе</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hero-sub-num" id="learned-words">0</div>
+          <div class="hero-sub-label">выучено</div>
+        </div>
+      </div>
+
+      <!-- Free categories -->
+      <div class="section-head">
+        <span class="section-title">Бесплатно</span>
+        <span class="section-badge badge-free" id="free-count"></span>
+      </div>
+      <div id="free-categories"></div>
+
+      <!-- Premium categories -->
+      <div class="section-head">
+        <span class="section-title">Premium</span>
+        <span class="section-badge badge-premium">от 2$/мес</span>
+      </div>
+      <div id="premium-categories"></div>
+
+      <!-- All words -->
+      <div class="all-words-card" onclick="onAllWordsClick()">
+        <div class="all-words-left">
+          <div class="ibox dark"><i class="ti ti-books"></i></div>
+          <div>
+            <div class="all-words-name">Все слова</div>
+            <div class="all-words-count" id="all-words-count">слова вперемешку</div>
+          </div>
+        </div>
+        <i class="ti ti-lock" style="color:#C45C3A;font-size:14px;"></i>
+      </div>
+
+      <div style="height: 32px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: EXERCISE ===== -->
+  <div id="screen-exercise" class="screen">
+    <header class="header">
+      <button class="icon-btn" onclick="exitExercise()" aria-label="назад">
+        <i class="ti ti-arrow-left"></i>
+      </button>
+      <div class="header-center">
+        <span class="cat-title" id="exercise-title">Числа</span>
+        <span class="cat-subtitle" id="exercise-progress">0 из 20</span>
+      </div>
+      <div style="width:30px;"></div>
+    </header>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="exercise-progress-bar" style="width:0%"></div>
+    </div>
+
+    <div id="exercise-body">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: RESULTS ===== -->
+  <div id="screen-results" class="screen">
+    <header class="header">
+      <button class="icon-btn" onclick="showScreen('home')" aria-label="назад">
+        <i class="ti ti-arrow-left"></i>
+      </button>
+      <div class="header-center">
+        <span class="cat-title" id="results-title">Числа</span>
+        <span class="cat-subtitle">сессия завершена</span>
+      </div>
+      <div style="width:30px;"></div>
+    </header>
+
+    <div class="screen-body">
+      <div class="praise-block">
+        <div class="praise-title"><span class="accent">Ó</span>dlično<span class="accent">!</span></div>
+        <div class="praise-sub" id="results-sub">Тренировка завершена.</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num ok" id="results-correct">0</div>
+          <div class="stat-label">правильно</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num err" id="results-wrong">0</div>
+          <div class="stat-label">с ошибками</div>
+        </div>
+      </div>
+
+      <div id="mistakes-section" style="display:none;">
+        <div class="section-head">
+          <span class="section-title">Почти твои</span>
+        </div>
+        <div id="mistakes-list" class="mistakes-list"></div>
+      </div>
+
+      <div class="actions">
+        <button class="cta-btn" onclick="repeatExercise()">Повторить тему</button>
+        <button class="sec-btn" onclick="nextCategory()">
+          <i class="ti ti-arrow-right"></i> Следующая тема
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: PROFILE ===== -->
+  <div id="screen-profile" class="screen">
+    <header class="header">
+      <button class="icon-btn" onclick="showScreen('home')" aria-label="назад">
+        <i class="ti ti-arrow-left"></i>
+      </button>
+      <div class="header-center">
+        <span class="cat-title">Мой прогресс</span>
+      </div>
+      <div style="width:30px;"></div>
+    </header>
+
+    <div class="screen-body">
+      <!-- Streak hero -->
+      <div class="hero-block streak-hero">
+        <div>
+          <div class="hero-num" id="profile-streak-num">0<span class="accent">.</span></div>
+          <div class="hero-label">дней подряд</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="hero-sub-num" id="profile-streak-record">0</div>
+          <div class="hero-sub-label">рекорд</div>
+        </div>
+      </div>
+
+      <!-- Week view -->
+      <div class="week-row" id="week-row"></div>
+
+      <!-- Stats -->
+      <div class="section-head"><span class="section-title">Статистика</span></div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="profile-total"><span class="accent">0.</span></div>
+          <div class="stat-label">слов в базе</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num ok" id="profile-learned">0</div>
+          <div class="stat-label">выучено</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="profile-sessions">0</div>
+          <div class="stat-label">сессий пройдено</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="profile-cats">0</div>
+          <div class="stat-label">тем начато</div>
+        </div>
+      </div>
+
+      <!-- Category progress -->
+      <div class="section-head"><span class="section-title">Прогресс по темам</span></div>
+      <div id="profile-progress"></div>
+
+      <!-- Settings -->
+      <div class="settings-row" onclick="alert('Настройки — скоро!')">
+        <div class="settings-left"><i class="ti ti-settings"></i> Настройки</div>
+        <i class="ti ti-chevron-right settings-arrow"></i>
+      </div>
+
+      <div style="height:32px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== PAYWALL MODAL ===== -->
+  <div id="paywall-overlay" class="overlay" onclick="closePaywall()">
+    <div class="paywall-sheet" onclick="event.stopPropagation()">
+      <div class="drag-handle"></div>
+
+      <div class="paywall-stack">
+        <div class="stack-card s3"></div>
+        <div class="stack-card s2"></div>
+        <div class="stack-card s1">
+          <div class="cat-ibox"><i class="ti" id="paywall-icon"></i></div>
+          <span class="paywall-cat-name" id="paywall-cat-name">Быт и дом</span>
+          <span class="more-badge">+16 тем</span>
+        </div>
+      </div>
+
+      <p class="paywall-title">Распакуй чемодан<span class="accent">.</span></p>
+      <p class="paywall-sub">17 тем — всё нужное для жизни в Сербии. Одна подписка, без лишнего.</p>
+
+      <ul class="paywall-features">
+        <li><i class="ti ti-check"></i>Доступ ко всем темам: еда, транспорт, документы...</li>
+        <li><i class="ti ti-check"></i>Мат и выражения — без ограничений</li>
+        <li><i class="ti ti-check"></i>Режим «Все слова» — все слова вперемешку</li>
+        <li><i class="ti ti-check"></i>Новые темы и слова при обновлениях</li>
+      </ul>
+
+      <div class="paywall-divider"></div>
+
+      <div class="price-row">
+        <span class="price-big">$2</span>
+        <span class="price-per">/ месяц</span>
+        <span class="price-note">· отмена в любой момент</span>
+      </div>
+
+      <button class="cta-btn" onclick="onSubscribe()">Открыть доступ — $2/мес</button>
+      <button class="dismiss-btn" onclick="closePaywall()">Не сейчас</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
