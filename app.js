@@ -169,6 +169,30 @@ function renderHome() {
   const learnedCount = Object.keys(state.learnedWords).length;
   document.getElementById('learned-words').textContent = learnedCount;
 
+  // All words lock icon — hide for premium
+  const allLock = document.getElementById('all-words-lock');
+  if (allLock) allLock.style.display = state.isPremium ? 'none' : '';
+
+  // Section headers — hide free/premium labels for premium users
+  const freeSection = document.querySelector('.section-head:has(#free-count)');
+  const premiumBadge = document.getElementById('premium-section-badge');
+  const premiumSectionHead = premiumBadge?.closest('.section-head');
+
+  if (state.isPremium) {
+    // Hide section separators for premium
+    document.querySelectorAll('.section-head').forEach(el => {
+      if (el.querySelector('#free-count') || el.querySelector('#premium-section-badge')) {
+        el.style.display = 'none';
+      }
+    });
+  } else {
+    document.querySelectorAll('.section-head').forEach(el => {
+      if (el.querySelector('#free-count') || el.querySelector('#premium-section-badge')) {
+        el.style.display = '';
+      }
+    });
+  }
+
   // Render categories
   const freeEl = document.getElementById('free-categories');
   const premiumEl = document.getElementById('premium-categories');
@@ -190,7 +214,7 @@ function buildCategoryCard(key, cat) {
   const isLocked = !cat.free && !state.isPremium;
 
   // For profanity: show limited free
-  const isFreeWithLimit = cat.free && cat.free_limit;
+  const isFreeWithLimit = cat.free && cat.free_limit && !state.isPremium;
   const wordCount = cat.words.length;
   const countText = isFreeWithLimit
     ? `${cat.free_limit} слов · потом 🔒`
@@ -588,7 +612,8 @@ function renderCategoryProgress() {
       state.learnedWords[`${key}:${i}`]
     ).length;
 
-    if (learned === 0 && !cat.free) return; // hide not-started premium
+    // Show: all free cats + any premium cat that has been started
+    if (learned === 0 && !cat.free) return;
 
     const pct = total > 0 ? Math.round((learned / total) * 100) : 0;
     const isDone = learned === total;
@@ -649,4 +674,13 @@ function loadTheme() {
     document.body.classList.remove('dark');
   }
   // If no saved preference, Telegram theme is already applied by initTelegram()
+}
+
+// ─── Utilities (extra) ─────────────────────────
+function openLink(url) {
+  if (window.Telegram?.WebApp?.openLink) {
+    window.Telegram.WebApp.openLink(url);
+  } else {
+    window.open(url, '_blank');
+  }
 }

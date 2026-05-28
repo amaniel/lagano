@@ -585,3 +585,36 @@ body.dark .mistake-card { background: rgba(196,92,58,0.07); }
 .toggle input:checked + .toggle-slider:before {
   transform: translateX(18px);
 }
+
+/* --- Streak hero alignment fix --- */
+.streak-hero .hero-block,
+.hero-block.streak-hero {
+  align-items: center;
+}
+
+/* --- Bigger day labels in week row --- */
+.day-sq .day-lbl {
+  font-size: 10px !important;
+}
+
+/* --- More breathing room on results screen --- */
+.praise-block {
+  padding: 32px 18px 18px;
+}
+
+.stats-row {
+  padding: 0 14px;
+}
+
+#mistakes-section .section-head {
+  padding-top: 20px;
+}
+
+.actions {
+  padding: 22px 14px 0;
+  gap: 10px;
+}
+
+.mistake-card {
+  padding: 14px;
+}

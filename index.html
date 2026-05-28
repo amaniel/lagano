@@ -65,7 +65,7 @@
       <!-- Premium categories -->
       <div class="section-head">
         <span class="section-title">Premium</span>
-        <span class="section-badge badge-premium">от 2$/мес</span>
+        <span class="section-badge badge-premium" id="premium-section-badge">$2/мес</span>
       </div>
       <div id="premium-categories"></div>
 
@@ -78,7 +78,7 @@
             <div class="all-words-count" id="all-words-count">слова вперемешку</div>
           </div>
         </div>
-        <i class="ti ti-lock" style="color:#C45C3A;font-size:14px;"></i>
+        <i class="ti ti-lock" id="all-words-lock" style="color:#C45C3A;font-size:14px;"></i>
       </div>
 
       <div style="height: 32px;"></div>
@@ -162,7 +162,9 @@
       <div class="header-center">
         <span class="cat-title">Мой прогресс</span>
       </div>
-      <div style="width:30px;"></div>
+      <button class="icon-btn" onclick="showScreen('settings')" aria-label="настройки">
+        <i class="ti ti-settings"></i>
+      </button>
     </header>
 
     <div class="screen-body">
@@ -206,12 +208,6 @@
       <div class="section-head"><span class="section-title">Прогресс по темам</span></div>
       <div id="profile-progress"></div>
 
-      <!-- Settings -->
-      <div class="settings-row" onclick="showScreen('settings')">
-        <div class="settings-left"><i class="ti ti-settings"></i> Настройки</div>
-        <i class="ti ti-chevron-right settings-arrow"></i>
-      </div>
-
       <div style="height:32px;"></div>
     </div>
   </div>
@@ -253,10 +249,24 @@
       <div class="settings-block">
         <div class="settings-item">
           <div class="settings-item-left">
-            <div class="ibox warm"><i class="ti ti-language"></i></div>
+            <div class="ibox warm"><i class="ti ti-info-circle"></i></div>
             <div>
-              <div class="settings-item-title">Язык</div>
-              <div class="settings-item-sub">Сербский → Русский</div>
+              <div class="settings-item-title">Версия</div>
+              <div class="settings-item-sub">1.0.0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:8px;"><span class="section-title">Документы</span></div>
+
+      <div class="settings-block">
+        <div class="settings-item" onclick="openLink('https://lagano-xi.vercel.app/privacy')" style="cursor:pointer;">
+          <div class="settings-item-left">
+            <div class="ibox warm"><i class="ti ti-shield"></i></div>
+            <div>
+              <div class="settings-item-title">Политика конфиденциальности</div>
+              <div class="settings-item-sub">Privacy Policy</div>
             </div>
           </div>
           <i class="ti ti-chevron-right settings-arrow"></i>
@@ -264,14 +274,15 @@
 
         <div class="settings-divider"></div>
 
-        <div class="settings-item">
+        <div class="settings-item" onclick="openLink('https://lagano-xi.vercel.app/terms')" style="cursor:pointer;">
           <div class="settings-item-left">
-            <div class="ibox warm"><i class="ti ti-info-circle"></i></div>
+            <div class="ibox warm"><i class="ti ti-file-description"></i></div>
             <div>
-              <div class="settings-item-title">Версия</div>
-              <div class="settings-item-sub">1.0.0</div>
+              <div class="settings-item-title">Условия использования</div>
+              <div class="settings-item-sub">Terms of Use</div>
             </div>
           </div>
+          <i class="ti ti-chevron-right settings-arrow"></i>
         </div>
       </div>
 
