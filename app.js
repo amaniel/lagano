@@ -34,6 +34,7 @@ const FREE_LIMIT_DEFAULT = 5; // for profanity category
 // ─── Init ─────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   initTelegram();
+  loadTheme();
   loadState();
   await loadDataset();
   await checkPremium();
@@ -145,6 +146,7 @@ function showScreen(name) {
 
   if (name === 'profile') renderProfile();
   if (name === 'home') renderHome();
+  if (name === 'settings') initSettings();
 }
 
 // ─── Home ──────────────────────────────────────
@@ -618,4 +620,33 @@ function shuffle(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+// ─── Settings ──────────────────────────────────
+function initSettings() {
+  // Set toggle to current theme
+  const isDark = document.body.classList.contains('dark');
+  const toggle = document.getElementById('dark-mode-toggle');
+  if (toggle) toggle.checked = isDark;
+}
+
+function toggleDarkMode(enabled) {
+  if (enabled) {
+    document.body.classList.add('dark');
+    localStorage.setItem('lagano_theme', 'dark');
+  } else {
+    document.body.classList.remove('dark');
+    localStorage.setItem('lagano_theme', 'light');
+  }
+}
+
+function loadTheme() {
+  // Priority: saved preference > Telegram theme
+  const saved = localStorage.getItem('lagano_theme');
+  if (saved === 'dark') {
+    document.body.classList.add('dark');
+  } else if (saved === 'light') {
+    document.body.classList.remove('dark');
+  }
+  // If no saved preference, Telegram theme is already applied by initTelegram()
 }

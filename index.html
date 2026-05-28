@@ -207,9 +207,72 @@
       <div id="profile-progress"></div>
 
       <!-- Settings -->
-      <div class="settings-row" onclick="alert('Настройки — скоро!')">
+      <div class="settings-row" onclick="showScreen('settings')">
         <div class="settings-left"><i class="ti ti-settings"></i> Настройки</div>
         <i class="ti ti-chevron-right settings-arrow"></i>
+      </div>
+
+      <div style="height:32px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: SETTINGS ===== -->
+  <div id="screen-settings" class="screen">
+    <header class="header">
+      <button class="icon-btn" onclick="showScreen('profile')" aria-label="назад">
+        <i class="ti ti-arrow-left"></i>
+      </button>
+      <div class="header-center">
+        <span class="cat-title">Настройки</span>
+      </div>
+      <div style="width:30px;"></div>
+    </header>
+
+    <div class="screen-body">
+
+      <div class="section-head"><span class="section-title">Внешний вид</span></div>
+
+      <div class="settings-block">
+        <div class="settings-item">
+          <div class="settings-item-left">
+            <div class="ibox warm"><i class="ti ti-moon"></i></div>
+            <div>
+              <div class="settings-item-title">Тёмная тема</div>
+              <div class="settings-item-sub">Переключить оформление</div>
+            </div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode(this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="section-head" style="margin-top:8px;"><span class="section-title">О приложении</span></div>
+
+      <div class="settings-block">
+        <div class="settings-item">
+          <div class="settings-item-left">
+            <div class="ibox warm"><i class="ti ti-language"></i></div>
+            <div>
+              <div class="settings-item-title">Язык</div>
+              <div class="settings-item-sub">Сербский → Русский</div>
+            </div>
+          </div>
+          <i class="ti ti-chevron-right settings-arrow"></i>
+        </div>
+
+        <div class="settings-divider"></div>
+
+        <div class="settings-item">
+          <div class="settings-item-left">
+            <div class="ibox warm"><i class="ti ti-info-circle"></i></div>
+            <div>
+              <div class="settings-item-title">Версия</div>
+              <div class="settings-item-sub">1.0.0</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div style="height:32px;"></div>
