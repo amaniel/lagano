@@ -36,9 +36,24 @@ window.addEventListener('DOMContentLoaded', async () => {
   initTelegram();
   loadState();
   await loadDataset();
+  await checkPremium();
   renderHome();
   updateStreak();
 });
+
+async function checkPremium() {
+  try {
+    const res = await fetch('premium_users.json');
+    const data = await res.json();
+    const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    if (tgUser && data.premium_users.includes(tgUser.id)) {
+      state.isPremium = true;
+      saveState();
+    }
+  } catch(e) {
+    console.log('Premium check skipped:', e);
+  }
+}
 
 function initTelegram() {
   if (window.Telegram?.WebApp) {
